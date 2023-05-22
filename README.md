@@ -1,73 +1,145 @@
+# Projeto ImageAPI
+Consiste em uma simples API que permite o tratamento e download de imagens.
+
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+  <img  src="https://img.freepik.com/free-vector/boss-manipulating-employee_1133-221.jpg" height="240px">
 </p>
+<h1 align="center">
+  ImageAPI
+</h1>
+<div align="center">
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+  <h3>Built With</h3>
+  <img src="https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white" height="30px"/>
+   <img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" height="30px"/>
+  <img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white" height="30px"/>
+  <img src="https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white" height="30px"/>  
+</div>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# Description
 
-## Description
+Nesse desafio foi proposto a criação de uma API que recebesse o url de uma imagem pública e um fator compress para reduzir a mesma.
+Deve-se então salvar a imagem original em um arquivo assim como sua versão reduzida.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Features
 
-## Installation
+-   Save image.
 
-```bash
-$ npm install
+</br>
+
+### Save image
+
+```
+http://localhost:5000
+POST /image/save
 ```
 
-## Running the app
+#### Request:
 
-```bash
-# development
-$ npm run start
+| Body              | Type       | Description                    |
+| :---------------- | :--------- | :----------------------------- |
+| `image`           | `string`   | **Required**. imageURL         |
+| `compress`        | `string`   | **Required**. compress factor  |
 
-# watch mode
-$ npm run start:dev
+####
 
-# production mode
-$ npm run start:prod
+#### Response:
+
+```json
+status: 201
+body:{
+  "localpath": {
+    "original": "/path/0e406885-9d03-4c72-bd92-c6411fbe5c49.jpeg",
+    "thumb": "/path/0e406885-9d03-4c72-bd92-c6411fbe5c49_thumb.jpg"
+  },
+  "metadata": {
+    "format": "jpeg",
+    "size": 4673976,
+    "width": 3024,
+    "height": 4032,
+    "space": "srgb",
+    "channels": 3,
+    "depth": "uchar",
+    "density": 72,
+    "chromaSubsampling": "4:4:4",
+    "isProgressive": false,
+    "resolutionUnit": "inch",
+    "hasProfile": true,
+    "hasAlpha": false,
+    "orientation": 1,
+    "exif": {
+      "type": "Buffer",
+      "data": [...]
+    }
+  }
+}
 ```
 
-## Test
+## Environment Variables
+
+`
+FOLDER_PATH=/path/
+`
+
+`
+PORT=5000
+`
+
+`
+MONGO_URL=mongodb://localhost:27017/database_name
+`
+#
+
+## Run Locally
+
+Clone the project
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+  git clone https://github.com/FKnight-cyber/ImageAPI.git
 ```
 
-## Support
+Start the server
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+`
+Crie um arquivo .env, há um modelo no arquivo .env-example
+`
 
-## Stay in touch
+`on root folder`
+```bash
+  run: npm i 
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Para rodar localmente, caso tenha mongodb e as demais dependências
 
-## License
+```bash
+  run: sudo systemctl start mongod
+```
 
-Nest is [MIT licensed](LICENSE).
+```bash
+  run: npm run start:dev
+```
+
+## Para rodar utilizando docker
+
+```bash
+  run: docker-compose up --build -d
+```
+
+## Run e2e tests
+
+```bash
+ run: npm run test:e2e
+```
+#
+
+
+## Lessons Learned
+
+Apesar de simples foi um projeto que me fez aprender bastante, é a primeira vez que lido com tratamento de imagens, então utilizei a lib sharp para realizar esse processo e foi bem gratificante.
+
+## Authors
+
+-   Ryan Nicholas a full-stack developer looking for new challenges!.
+<br/>
+
+#
