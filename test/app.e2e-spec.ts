@@ -35,4 +35,27 @@ describe('App e2e testing', () => {
       );
     });
   });
+
+  it('[400::BAD_REQUEST] Should fail to save an image', async () => {
+    const data = {
+      image: 'https://assets.storage.trakto.io/',
+      compress: 0.9,
+    };
+
+    const errorData = {
+      errors: [
+        {
+          code: 'ERR_BAD_REQUEST',
+          message: 'AxiosError: Request failed with status code 403',
+        },
+      ],
+    };
+
+    const response = await request(app.getHttpServer())
+      .post('/image/save')
+      .send(data);
+
+    expect(response.statusCode).toEqual(400);
+    expect(response.body).toEqual(errorData);
+  });
 });
