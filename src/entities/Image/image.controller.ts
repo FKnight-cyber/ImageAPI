@@ -1,15 +1,10 @@
-import {
-  Controller,
-  Post,
-  Body,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { Controller, Post, Body, HttpException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Image } from './image.model';
 import axios from 'axios';
 import * as sharp from 'sharp';
+import errorHandler from 'src/utils/errorTypes';
 
 @Controller('image')
 export class ImageController {
@@ -64,8 +59,18 @@ export class ImageController {
 
       return responseData;
     } catch (error) {
-      console.error('Error processing image:', error);
-      throw new HttpException(`${error}`, HttpStatus.INTERNAL_SERVER_ERROR);
+      console.error('Error processing image ', error);
+      throw new HttpException(
+        {
+          errors: [
+            {
+              code: error.code,
+              message: `${error}`,
+            },
+          ],
+        },
+        errorHandler(error.code),
+      );
     }
   }
 }
