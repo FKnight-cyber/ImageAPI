@@ -1,6 +1,6 @@
 import { Controller, Post, Body, HttpException } from '@nestjs/common';
 import { ImageService } from './image.service';
-import errorHandler from 'src/utils/errorTypes';
+import errorHandler from '../../utils/errorTypes';
 
 @Controller('image')
 export class ImageController {

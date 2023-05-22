@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Image } from './image.model';
 import axios from 'axios';
-import * as sharp from 'sharp';
+import sharp from 'sharp';
 
 @Injectable()
 export class ImageService {
