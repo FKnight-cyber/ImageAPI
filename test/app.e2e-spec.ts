@@ -46,7 +46,7 @@ describe('App e2e testing', () => {
       errors: [
         {
           code: 'ERR_BAD_REQUEST',
-          message: 'AxiosError: Request failed with status code 403',
+          message: 'Invalid image format',
         },
       ],
     };

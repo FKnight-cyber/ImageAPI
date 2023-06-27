@@ -1,6 +1,6 @@
-import { Schema, Document } from 'mongoose';
+import { Schema } from 'mongoose';
 
-export interface Image extends Document {
+export interface Image {
   originalUrl: string;
   filename: string;
   thumbnailFilename: string;

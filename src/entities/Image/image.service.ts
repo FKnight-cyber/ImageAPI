@@ -1,15 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Image } from './image.model';
 import axios from 'axios';
 import sharp from 'sharp';
+import { Image } from './image.model';
+import { ImageRepository } from './image.repository';
 
 @Injectable()
 export class ImageService {
-  constructor(
-    @InjectModel('Image') private readonly imageModel: Model<Image>,
-  ) {}
+  constructor(private readonly imageRepository: ImageRepository) {}
 
   async processAndSaveImage(imageUrl: string, compress: number): Promise<any> {
     try {
@@ -32,22 +29,24 @@ export class ImageService {
       const imageSharp = sharp(response.data);
       const metadata = await imageSharp.metadata();
       const { width, height } = metadata;
-      const maxDimension = Math.max(width, height);
       const resizeOptions = {
-        width: maxDimension >= 720 ? 720 : width,
-        height: maxDimension >= 720 ? undefined : height,
+        width: width > height ? 720 : undefined,
+        height: height > width ? 720 : undefined,
       };
+
       await imageSharp.resize(resizeOptions).toFile(thumbnailPath);
 
       const exifMetadata = await sharp(response.data).metadata();
-      const newImage = new this.imageModel({
+
+      const newImage: Image = {
         originalUrl: imageUrl,
         filename: originalFilename,
         thumbnailFilename,
         compressionFactor: compress,
         metadata: exifMetadata,
-      });
-      await newImage.save();
+      };
+
+      await this.imageRepository.create(newImage);
 
       const responseData = {
         localpath: {
