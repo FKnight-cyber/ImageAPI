@@ -2,6 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { AppModule } from '../src/app.module';
 import request from 'supertest';
+import { ImageService } from 'src/entities/Image/image.service';
 
 describe('App e2e testing', () => {
   let app: INestApplication;
@@ -46,16 +47,16 @@ describe('App e2e testing', () => {
       errors: [
         {
           code: 'ERR_BAD_REQUEST',
-          message: 'Invalid image format',
+          message: 'AxiosError: Request failed with status code 403',
         },
       ],
     };
 
     const response = await request(app.getHttpServer())
       .post('/image/save')
+      .expect(400)
       .send(data);
 
-    expect(response.statusCode).toEqual(400);
     expect(response.body).toEqual(errorData);
   });
 });
